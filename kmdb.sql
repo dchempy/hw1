@@ -105,27 +105,17 @@
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
-
-
-
--- Create new tables, according to your domain model
--- TODO!
-DROP TABLE IF EXISTS studio;
 DROP TABLE IF EXISTS movie;
 DROP TABLE IF EXISTS movie_cast;
 
-CREATE TABLE studio (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  studio_name TEXT,
-  first_name TEXT,
-  last_name TEXT
-);
+-- Create new tables, according to your domain model
+-- TODO!
 CREATE TABLE movie (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    studio_id INTEGER,
     movie_name TEXT,
     release_year INTEGER,
-    rating TEXT
+    rating TEXT,
+    studio TEXT
 );
 
 CREATE TABLE movie_cast (
@@ -133,17 +123,62 @@ CREATE TABLE movie_cast (
     movie_id INTEGER,
     actor_name TEXT,
     character_name TEXT
-)
+);
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
+INSERT INTO movie (
+  movie_name,
+  release_year,
+  rating,
+  studio
+)
+VALUES ("Batman Begins", 2005, "PG-13", "Warner Bros."),
+("The Dark Knight", 2008, "PG-13", "Warner Bros."),
+("The Dark Knight Rises", 2012, "PG-13", "Warner Bros.");
 
+INSERT INTO movie_cast (
+  movie_id,
+  actor_name,
+  character_name
+)
+VALUES (1, "Christian Bale", "Bruce Wayne"),
+(1, "Michael Caine", "Alfred"),
+(1, "Liam Neeson", "Ra's Al Ghul"),
+(1, "Katie Holmes", "Rachel Dawes"),
+(1, "Gary Oldman", "Commissioner Gordon"),
+
+(2, "Christian Bale", "Bruce Wayne"),
+(2, "Heather Ledger", "Joker"),
+(2, "Aaron Eckhart", "Harvey Dent"),
+(2, "Michael Caine", "Alfred"),
+(2, "Maggie Gyllenhaal", "Rachel Dawes"),
+
+(3, "Christian Bale", "Bruce Wayne"),
+(3, "Gary Oldman", "Commissioner Gordon"),
+(3, "Tom Hardy", "Bane"),
+(3, "Joseph Gordon-Levitt", "John Blake"),
+(3, "Anne Hathaway", "Selina Kyle");
+-- Batman Begins          Christian Bale        Bruce Wayne
+-- Batman Begins          Michael Caine         Alfred
+-- Batman Begins          Liam Neeson           Ra's Al Ghul
+-- Batman Begins          Katie Holmes          Rachel Dawes
+-- Batman Begins          Gary Oldman           Commissioner Gordon
+-- The Dark Knight        Christian Bale        Bruce Wayne
+-- The Dark Knight        Heath Ledger          Joker
+-- The Dark Knight        Aaron Eckhart         Harvey Dent
+-- The Dark Knight        Michael Caine         Alfred
+-- The Dark Knight        Maggie Gyllenhaal     Rachel Dawes
+-- The Dark Knight Rises  Christian Bale        Bruce Wayne
+-- The Dark Knight Rises  Gary Oldman           Commissioner Gordon
+-- The Dark Knight Rises  Tom Hardy             Bane
+-- The Dark Knight Rises  Joseph Gordon-Levitt  John Blake
+-- The Dark Knight Rises  Anne Hathaway         Selina Kyle
 -- Prints a header for the movies output
 .print "Movies"
 .print "======"
 .print ""
-
 -- The SQL statement for the movies output
 -- TODO!
 
