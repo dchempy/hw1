@@ -109,7 +109,7 @@ DROP TABLE IF EXISTS movie;
 DROP TABLE IF EXISTS movie_cast;
 DROP TABLE IF EXISTS studio;
 DROP TABLE IF EXISTS rating;
-
+DROP TABLE IF EXISTS actor;
 -- Create new tables, according to your domain model
 -- TODO!
 CREATE TABLE movie (
@@ -122,7 +122,7 @@ CREATE TABLE movie (
 CREATE TABLE movie_cast (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     movie_id INTEGER,
-    actor_name TEXT,
+    actor_id INTEGER,
     character_name TEXT
 );
 CREATE TABLE studio (
@@ -132,6 +132,11 @@ CREATE TABLE studio (
 CREATE TABLE rating (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     mpaa_rating TEXT
+);
+
+CREATE TABLE actor (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    actor_name TEXT
 );
 
 -- Insert data into your database that reflects the sample data shown above
@@ -147,6 +152,21 @@ INSERT INTO studio (
 )
 Values ("Warner Bros.");
 
+INSERT INTO actor (
+    actor_name
+)
+Values ("Christian Bale"),
+("Michael Caine"),
+("Liam Neeson"),
+("Katie Holmes"),
+("Gary Oldman"),
+("Heath Ledger"),
+("Aaron Eckhart"),
+("Maggie Gyllenhaal"),
+("Tom Hardy"),
+("Joseph Gordon-Levitt"),
+("Anne Hathaway");
+
 INSERT INTO movie (
     studio_id,
     rating_id,
@@ -159,26 +179,26 @@ VALUES (1, 1, "Batman Begins", 2005),
 
 INSERT INTO movie_cast (
   movie_id,
-  actor_name,
+  actor_id,
   character_name
 )
-VALUES (1, "Christian Bale", "Bruce Wayne"),
-(1, "Michael Caine", "Alfred"),
-(1, "Liam Neeson", "Ra's Al Ghul"),
-(1, "Katie Holmes", "Rachel Dawes"),
-(1, "Gary Oldman", "Commissioner Gordon"),
+VALUES (1, 1, "Bruce Wayne"),
+(1, 2, "Alfred"),
+(1, 3, "Ra's Al Ghul"),
+(1, 4, "Rachel Dawes"),
+(1, 5, "Commissioner Gordon"),
 
-(2, "Christian Bale", "Bruce Wayne"),
-(2, "Heather Ledger", "Joker"),
-(2, "Aaron Eckhart", "Harvey Dent"),
-(2, "Michael Caine", "Alfred"),
-(2, "Maggie Gyllenhaal", "Rachel Dawes"),
+(2, 1, "Bruce Wayne"),
+(2, 6, "Joker"),
+(2, 7, "Harvey Dent"),
+(2, 2, "Alfred"),
+(2, 8, "Rachel Dawes"),
 
-(3, "Christian Bale", "Bruce Wayne"),
-(3, "Gary Oldman", "Commissioner Gordon"),
-(3, "Tom Hardy", "Bane"),
-(3, "Joseph Gordon-Levitt", "John Blake"),
-(3, "Anne Hathaway", "Selina Kyle");
+(3, 1, "Bruce Wayne"),
+(3, 5, "Commissioner Gordon"),
+(3, 9, "Bane"),
+(3, 10, "John Blake"),
+(3, 11, "Selina Kyle");
 -- Prints a header for the movies output
 .print "Movies"
 .print "======"
@@ -197,6 +217,7 @@ INNER JOIN studio on movie.studio_id = studio.id;
 .print ""
 -- The SQL statement for the cast output
 -- TODO!
-SELECT movie.movie_name, movie_cast.actor_name, movie_cast.character_name
+SELECT movie.movie_name, actor.actor_name, movie_cast.character_name
 FROM movie_cast
-INNER JOIN movie on movie_cast.movie_id = movie.id;
+INNER JOIN movie on movie_cast.movie_id = movie.id
+INNER JOIN actor on movie_cast.actor_id = actor.id;
