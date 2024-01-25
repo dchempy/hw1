@@ -107,36 +107,55 @@
 -- TODO!
 DROP TABLE IF EXISTS movie;
 DROP TABLE IF EXISTS movie_cast;
+DROP TABLE IF EXISTS studio;
+DROP TABLE IF EXISTS rating;
 
 -- Create new tables, according to your domain model
 -- TODO!
 CREATE TABLE movie (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    studio_id,
+    rating_id,
     movie_name TEXT,
-    release_year INTEGER,
-    rating TEXT,
-    studio TEXT
+    release_year INTEGER
 );
-
 CREATE TABLE movie_cast (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     movie_id INTEGER,
     actor_name TEXT,
     character_name TEXT
 );
+CREATE TABLE studio (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    studio_name TEXT
+);
+CREATE TABLE rating (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    mpaa_rating TEXT
+);
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
-INSERT INTO movie (
-  movie_name,
-  release_year,
-  rating,
-  studio
+INSERT INTO rating (
+    mpaa_rating
 )
-VALUES ("Batman Begins", 2005, "PG-13", "Warner Bros."),
-("The Dark Knight", 2008, "PG-13", "Warner Bros."),
-("The Dark Knight Rises", 2012, "PG-13", "Warner Bros.");
+Values ("PG-13");
+
+INSERT INTO studio (
+    studio_name
+)
+Values ("Warner Bros.");
+
+INSERT INTO movie (
+    studio_id,
+    rating_id,
+    movie_name,
+    release_year
+)
+VALUES (1, 1, "Batman Begins", 2005),
+(1, 1, "The Dark Knight", 2008),
+(1, 1, "The Dark Knight Rises", 2012);
 
 INSERT INTO movie_cast (
   movie_id,
@@ -166,8 +185,11 @@ VALUES (1, "Christian Bale", "Bruce Wayne"),
 .print ""
 -- The SQL statement for the movies output
 -- TODO!
-SELECT movie_name, release_year, rating, studio
-FROM movie;
+SELECT movie.movie_name, movie.release_year, rating.mpaa_rating, studio.studio_name
+FROM movie
+INNER JOIN rating on movie.rating_id = rating.id
+INNER JOIN studio on movie.studio_id = studio.id;
+
 -- Prints a header for the cast output
 .print ""
 .print "Top Cast"
